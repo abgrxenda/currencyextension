@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "ÖTEK Currency Converter",
+  "version": "1.3",
+  "description": "Convert currencies using xe.otek.today API",
+  "permissions": ["storage", "contextMenus", "activeTab"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "options_page": "options.html",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Currency Converter"
+  },
+  "icons": {
+    "48": "favicon.png"
+  },
+  "applications": {
+    "gecko": {
+      "id": "otek-currency-converter@yourdomain.com",
+      "strict_min_version": "109.0"
+    }
+  }
+}
