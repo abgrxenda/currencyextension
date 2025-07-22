@@ -49,17 +49,22 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
-// Get user's preferred currency from storage
-async function getPreferredCurrency() {
-  try {
-    const result = await browser.storage.sync.get(["preferredCurrencies"]);
-    const savedCurrencies = result.preferredCurrencies || [];
-    return savedCurrencies[0] || "USD"; // Return first saved currency or default
-  } catch (error) {
-    console.error("Failed to get preferred currency:", error);
-    return "USD";
-  }
+// TODO: Define the getPreferredCurrency function to fetch user's preferred currency from storage.
+function getPreferredCurrency() {
+  return selectedCurrency;
 }
+
+// Get user's preferred currency from storage
+// async function getPreferredCurrency() {
+//   try {
+//     const result = await browser.storage.sync.get(["preferredCurrencies"]);
+//     const savedCurrencies = result.preferredCurrencies || [];
+//     return savedCurrencies[0] || "USD"; // Return first saved currency or default
+//   } catch (error) {
+//     console.error("Failed to get preferred currency:", error);
+//     return "USD";
+//   }
+// }
 
 // Refresh context menu
 async function refreshContextMenu() {
@@ -98,3 +103,9 @@ async function refreshContextMenu() {
 // Rebuild context menu on startup and install
 browser.runtime.onStartup.addListener(refreshContextMenu);
 browser.runtime.onInstalled.addListener(refreshContextMenu);
+// Add this to background.js
+browser.runtime.onMessage.addListener((message) => {
+  if (message.action === "refreshContextMenu") {
+    refreshContextMenu();
+  }
+});
