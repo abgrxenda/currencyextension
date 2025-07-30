@@ -8,7 +8,7 @@
   "content_security_policy": "script-src 'self'; object-src 'none'",
   "browser_specific_settings": {
     "gecko": {
-      "id": "otek.converter@otek.today"
+      "id": "otek-converter@otek.today"
     }
   },
   "icons": {
