@@ -7,7 +7,7 @@
     <style>
         body {
             width: 350px;
-            min-height: 200px;
+            min-height: 300px;
             padding: 20px;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -162,106 +162,6 @@
         </div>
     </div>
 
-    <script>
-        let conversionData = null;
-
-        // Get conversion data from URL parameters or storage
-        async function getConversionData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const fromCurrency = urlParams.get('from');
-            const toCurrency = urlParams.get('to');
-            const amount = urlParams.get('amount');
-
-            if (fromCurrency && toCurrency && amount) {
-                return { fromCurrency, toCurrency, amount };
-            }
-
-            // Fallback: get from browser storage (set by background script)
-            try {
-                const result = await browser.storage.local.get(['conversionData']);
-                return result.conversionData;
-            } catch (error) {
-                console.error('Failed to get conversion data:', error);
-                return null;
-            }
-        }
-
-        // Perform currency conversion
-        async function performConversion(data) {
-            if (!data) {
-                throw new Error('No conversion data available');
-            }
-
-            const { fromCurrency, toCurrency, amount } = data;
-            const url = `http://xe.otek.today/${fromCurrency}/${toCurrency}/${amount}`;
-            
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const result = await response.json();
-            return result;
-        }
-
-        // Display conversion result
-        function displayResult(data, result) {
-            const { fromCurrency, toCurrency, amount } = data;
-            
-            document.getElementById('fromAmount').textContent = `${amount} ${fromCurrency}`;
-            document.getElementById('toAmount').textContent = `${result.convertedAmount || result.result || 'N/A'} ${toCurrency}`;
-            document.getElementById('exchangeRate').textContent = `1 ${fromCurrency} = ${result.rate || result.exchangeRate || 'N/A'} ${toCurrency}`;
-            
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('result').style.display = 'block';
-        }
-
-        // Display error
-        function displayError(message) {
-            document.getElementById('errorMessage').textContent = message;
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'block';
-        }
-
-        // Initialize popup
-        async function init() {
-            try {
-                conversionData = await getConversionData();
-                
-                if (!conversionData) {
-                    displayError('No conversion data found. Please try selecting a currency amount again.');
-                    return;
-                }
-
-                const result = await performConversion(conversionData);
-                displayResult(conversionData, result);
-                
-            } catch (error) {
-                console.error('Conversion failed:', error);
-                displayError(`Conversion failed: ${error.message}`);
-            }
-        }
-
-        // Event listeners
-        document.getElementById('closeBtn').addEventListener('click', () => {
-            window.close();
-        });
-
-        document.getElementById('retryBtn').addEventListener('click', () => {
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
-            init();
-        });
-
-        // Close popup when clicking outside (if opened as a tab)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                window.close();
-            }
-        });
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+    <script src="popup.js"></script>
 </body>
 </html>
