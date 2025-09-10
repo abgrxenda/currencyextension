@@ -1,31 +1,45 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "ÖTEK Currency Converter",
-  "version": "1.4",
+  "version": "1.9.6",
+  "author": "Ömer Kadir",
   "description": "Convert currencies using xe.otek.today API",
-  "permissions": ["storage", "contextMenus", "activeTab"],
-  "background": {
-    "scripts": ["background.js"]
-  },
-  "options_page": "options.html",
-  "action": {
-    "default_popup": "popup.html",
-    "default_title": "Currency Converter"
+  "homepage_url": "https://omertek.com/",
+  "content_security_policy": "script-src 'self'; object-src 'none'; connect-src http://xe.otek.today/",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "otek.converter@otek.today",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
   },
   "icons": {
     "48": "favicon.png"
   },
-  "applications": {
-    "gecko": {
-      "id": "otek.converter@otek.today",
-      "strict_min_version": "109.0"
-    }
+  "browser_action": {
+    "default_icon": {
+      "48": "favicon.png"
+    },
+    "default_title": "ÖTEK Currency Converter",
+    "default_popup": "options.html"
   },
-  "browser_specific_settings": {
-  "gecko": {
-    "id": "otek.converter@otek.today",
-    "strict_min_version": "58.0"
-  }
-}
-
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "tabs",
+    "http://xe.otek.today/*"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "options_ui": {
+    "page": "options.html"
+  },
+  "web_accessible_resources": [
+    "popup.html",
+    "popup.js"
+  ]
 }
