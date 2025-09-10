@@ -1,143 +1,232 @@
-# ÖTEK Code Generator
+# ÖTEK Currency Converter
 
-![ÖTEK - Teknoloji ve Finansın Geleceğini Şekillendiriyoruz](https://omertek.com/include/attachment/sitecontent/66b5e2f4017011.67907435.jpg)
+A Firefox browser extension that allows users to quickly convert currencies by selecting text on any webpage and using the right-click context menu. The extension uses a custom Node.js API that scrapes real-time exchange rates from XE.com.
 
-**ÖTEK Code Generator** is a powerful, lightweight browser extension that allows you to instantly generate secure passwords directly within any input field — with just one click. Developed by **Ömer Kadir** at **Ömer Teknoloji (ÖTEK)**, this tool embodies our mission: *Turning your vision into reality through innovative digital solutions.*
+![Extension Demo](https://img.shields.io/badge/Firefox-Extension-orange)
+![Version](https://img.shields.io/badge/Version-1.9.2-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Whether you're signing up for a new service or updating your credentials, ÖTEK Code Generator delivers fast, customizable, and clipboard-copied passwords — all while maintaining maximum security and ease of use.
+## Features
+
+- **Context Menu Integration**: Right-click on any currency amount to convert it
+- **Beautiful Popup Interface**: Modern glassmorphism design with smooth animations
+- **Real-time Exchange Rates**: Powered by XE.com through custom API
+- **Multiple Currency Support**: Supports major currencies (USD, EUR, GBP, TRY, etc.)
+- **Smart Number Parsing**: Handles various number formats with commas and different separators
+- **Customizable Currency List**: Add/remove preferred currencies through options
+- **Auto-close Functionality**: Popup automatically closes after 30 seconds
+- **Error Handling**: Graceful error handling with retry functionality
+
+## Screenshots
+
+### Context Menu
+![Context Menu](https://otek.today/files/Context+Menu+Screenshot.png)
+
+### Conversion Popup
+![Popup Interface](https://otek.today/files/Popup+Interface+Screenshot.png)
+
+### Options Page
+![Options](https://otek.today/files/Options+Page+Screenshot.png)
+
+## Installation
+
+### From Source
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/abgrxenda/currencyextension.git
+   cd currencyextension
+   ```
+
+2. Open Firefox and navigate to `about:debugging`
+
+3. Click "This Firefox" → "Load Temporary Add-on"
+
+4. Select the `manifest.json` file from the project directory
+
+### From Firefox Add-ons Store
+
+*Coming soon...*
+
+## API Setup
+
+This extension requires the ÖTEK Currency API to be running. You can set up your own instance:
+
+![Visit ÖTEK Currency API](https://github.com/abgrxenda/otek-currencyapi)
+
+## Usage
+
+1. **Select Currency Text**: Highlight any currency amount on a webpage (e.g., "$100", "€50", "£25")
+
+2. **Right-click**: Open the context menu
+
+3. **Choose Currency**: Select "Currency Conversion" → Choose target currency
+
+4. **View Result**: A beautiful popup will display the conversion result
+
+### Supported Text Formats
+
+The extension recognizes various currency formats:
+- `$100` → USD 100
+- `€1,234.56` → EUR 1234.56
+- `£50.00` → GBP 50
+- `1000 TL` → TRY 1000
+- `₺500` → TRY 500
+
+## File Structure
+
+```
+otek-currency-converter/
+├── manifest.json          # Extension manifest
+├── background.js          # Background script (context menu logic)
+├── popup.html            # Popup interface
+├── popup.js             # Popup functionality
+├── options.html         # Extension options page
+├── favicon.png          # Extension icon
+└── README.md           # This file
+```
+
+## Configuration
+
+### Adding Custom Currencies
+
+1. Click the extension icon in Firefox toolbar
+2. Go to Options
+3. Add your preferred currencies
+4. Save settings
+
+### API Configuration
+
+To use a different API endpoint, modify the URL in `background.js` and `popup.js`:
+
+```javascript
+const url = `http://your-api-domain.com/${fromCurrency}/${toCurrency}/${amount}`;
+```
+
+## Technical Details
+
+### Extension Architecture
+
+- **Manifest V2**: Compatible with Firefox
+- **Background Script**: Handles context menu creation and data storage
+- **Popup Window**: Displays conversion results with modern UI
+- **Browser Storage**: Stores user preferences and temporary conversion data
+
+### API Integration
+
+The extension communicates with a Node.js API that:
+- Scrapes real-time rates from XE.com using Cheerio
+- Provides CORS support for browser requests
+- Returns clean JSON responses
+
+### Security Features
+
+- **Content Security Policy**: Prevents inline scripts
+- **CORS Headers**: Proper cross-origin request handling
+- **Input Validation**: Sanitizes user input and API responses
+
+## Browser Support
+
+- **Firefox**: 60+ (Primary target)
+- **Chrome**: Compatible with minor modifications
+- **Edge**: Compatible with minor modifications
+
+## Development
+
+### Prerequisites
+
+- Firefox Developer Edition (recommended)
+- Node.js for API development
+- Basic knowledge of WebExtensions API
+
+### Building
+
+1. Make your changes to the source files
+2. Test using `about:debugging` in Firefox
+3. Validate using Firefox's web-ext tool:
+   ```bash
+   npx web-ext lint
+   ```
+
+### Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+## Troubleshooting
+
+### Common Issues
+
+**Extension doesn't appear in context menu:**
+- Check that the extension is properly loaded
+- Verify you're selecting text that contains numbers
+
+**Conversion fails:**
+- Ensure the API server is running
+- Check browser console for CORS errors
+- Verify network connectivity
+
+**Popup shows "N/A":**
+- Check API response format
+- Verify currency codes are supported
+- Check for JavaScript errors in popup console
+
+### Debug Mode
+
+Enable debug logging by opening the browser console:
+
+1. **Background Script**: `about:debugging` → Inspect extension
+2. **Popup Console**: Right-click popup → Inspect Element
+3. **Main Page**: F12 → Console tab
+
+## Privacy Policy
+
+This extension:
+- Does not collect personal data
+- Does not track user behavior
+- Only stores user currency preferences locally
+- Makes requests only to the configured currency API
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Changelog
+
+### v1.9.2 (Latest)
+- Fixed inline script CSP warnings
+- Added data collection permissions
+- Improved number parsing for comma-separated values
+- Enhanced error handling and debugging
+
+### v1.9.1
+- Added popup interface for conversion results
+- Improved UI with glassmorphism design
+- Added auto-close functionality
+- Better error handling and retry mechanism
+
+### v1.0.0
+- Initial release
+- Basic context menu functionality
+- XE.com API integration
+
+## Credits
+
+- **Developer**: Ömer Kadir
+- **Website**: [omertek.com](https://omertek.com/)
+- **Exchange Rates**: Powered by XE.com
+- **Icons**: Custom designed
+
+## Support
+
+For support, bug reports, or feature requests:
+- Open an issue on GitHub
+- Visit [omertek.com](https://omertek.com/)
+- Email: [your-email@example.com]
 
 ---
 
-## 🔧 Features
-
-- ✅ **One-click password generation** via right-click context menu
-- 💬 **Smart input detection**: Automatically fills the active text field
-- 🔐 **Fully customizable**: Choose length, numbers, special characters, and alphabet inclusion
-- 💾 **Persistent preferences**: Saves your settings across devices via `storage.sync`
-- 🌍 **Multilingual support**: Built with international users in mind (`__MSG_...__`)
-- 📋 **Auto-copy to clipboard**: Generated password is copied instantly
-- 🌐 **Cross-browser compatible**: Works on Firefox and Chrome-based browsers
-
----
-
-## 📦 Installation
-
-### For Firefox
-1. Download the extension package (`.xpi` file) or source code.
-2. Open Firefox and go to `about:debugging`.
-3. Click **"This Firefox"** → **"Load Temporary Add-on"**.
-4. Select the `manifest.json` file from the extension folder.
-5. The extension will be loaded and ready to use.
-
-> To install permanently, package the extension as a `.xpi` and submit it to [addons.mozilla.org](https://addons.mozilla.org) or install via file drag-and-drop.
-
-### For Chrome / Chromium Browsers
-1. Go to `chrome://extensions`
-2. Enable **Developer mode** (top right)
-3. Click **"Load unpacked"**
-4. Select the extension folder
-5. Extension is now active
-
----
-
-## 🚀 How to Use
-
-Follow these simple, logical steps to generate secure passwords anywhere:
-
-### Step 1: Open a Form with a Text Field
-- Navigate to any website with a password or text input field (e.g., sign-up, login, or profile page)
-- Click inside the field where you want the password
-
-### Step 2: Generate a Password
-- Right-click the input field
-- Select **"Generate Password"** from the context menu
-- ✅ The password is:
-  - Automatically generated based on your saved settings
-  - Inserted into the current field
-  - Copied to your clipboard
-
-> No extra clicks. No switching tabs. Just instant security.
-
----
-
-## ⚙️ Configure Your Settings
-
-Personalize how your passwords are generated:
-
-### Step 1: Open the Options Page
-- Click the **ÖTEK Code Generator** icon in the browser toolbar
-- The **Options Popup** will appear
-
-### Step 2: Adjust Password Settings
-You can customize:
-- 🔢 **Password Length**: Set number of characters (e.g., 8, 12, 16)
-- ✅ **Include Numbers**: Check to add `0-9`
-- ✅ **Include Special Characters**: Check to add `!@#$-=+`
-- ✅ **Include Alphabet**: Check to add `A-Za-z`
-
-### Step 3: Save Preferences
-- Click **"Save"**
-- Your settings are saved instantly and will be used for all future generations
-
-> Changes apply immediately — no restart needed.
-
----
-
-## 🛠️ Technical Details
-
-- **Manifest Version**: 2
-- **Core Functionality**: Context menu + content script injection
-- **Permissions**:
-  - `storage`: Save and sync user preferences
-  - `contextMenus`: Add "Generate Password" option
-  - `scripting`: Inject `content.js` into the page
-  - `tabs`: Required for script injection
-  - `<all_urls>`: Needed to work on all sites
-- **Key Files**:
-  - `background.js`: Manages context menu and script injection
-  - `content.js`: Runs in the page to fill the input and copy to clipboard
-  - `options.html` + `options.js`: Settings UI with localization
-  - `manifest.json`: Extension configuration
-  - `images/icon*.png`: Extension icons
-
----
-
-## 🌐 About ÖTEK
-
-> *"Vizyonunuzu Gerçeğe Dönüştürüyoruz"*
-
-At **Ömer Teknoloji (ÖTEK)**, we believe technology has the power to transform businesses and improve lives. Founded in 2020, we’ve become a trusted partner for companies across Turkey and beyond. With over **25 years of combined industry expertise**, we deliver innovative solutions in:
-
-- 🖥️ Web & Mobile Application Development
-- 🎨 UI/UX & Graphic Design
-- 📊 Financial Reporting & Analysis
-- 💡 Digital Transformation Consulting
-
-We blend creativity with technical excellence to deliver exceptional results.
-
-👉 Learn more: [https://omertek.com](https://omertek.com)
-
----
-
-## 📞 Get in Touch
-
-Ready to take the next step? Whether you have questions, need guidance, or want to start a new project — we're here to help.
-
-✅ [Schedule a consultation with our experts](https://omertek.com)  
-Let’s explore how ÖTEK can provide **custom solutions** and **innovative strategies** to support your business growth.
-
----
-
-## 📜 License
-
-This extension is developed by Ömer Kadir for ÖTEK. All rights reserved.  
-For licensing or collaboration inquiries, please contact us via [https://omertek.com](https://omertek.com).
-
----
-
-## 🙌 Thank You
-
-Thank you for using **ÖTEK Code Generator** — where innovation meets practicality.
-
-*Built with precision. Designed for success.*  
-**— ÖTEK | Shaping the Future of Technology and Finance**
+**⭐ If you find this extension useful, please give it a star on GitHub!**

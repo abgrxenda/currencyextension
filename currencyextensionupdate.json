@@ -3,12 +3,12 @@
     "otek.converter@otek.today": {
       "updates": [
         {
-          "version": "1.9.4",
-          "update_link": "https://omertek.com/currencyextensionupdate/otek_currency_converter-1.9.4.xpi"
-        },
-        {
           "version": "1.9.5",
           "update_link": "https://omertek.com/currencyextensionupdate/otek_currency_converter-1.9.5.xpi"
+        },
+        {
+          "version": "1.9.6",
+          "update_link": "https://omertek.com/currencyextensionupdate/otek_currency_converter-1.9.6.xpi"
         }
       ]
     }
