@@ -52,6 +52,7 @@ A Firefox browser extension that allows users to quickly convert currencies by s
 
 This extension requires the ÖTEK Currency API to be running. You can set up your own instance:
 
+### ÖTEK Currency API
 ![Visit ÖTEK Currency API](https://github.com/abgrxenda/otek-currencyapi)
 
 ## Usage
@@ -192,7 +193,7 @@ This extension:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](license.md) file for details.
 
 ## Changelog
 
