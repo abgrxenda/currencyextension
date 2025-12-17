@@ -21,19 +21,16 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     // Map symbols and common codes to ISO codes
     const symbolToCode = {
       "$": "USD",
-      "USD": "USD",
       "€": "EUR",
-      "EUR": "EUR",
       "£": "GBP",
-      "GBP": "GBP",
       "TL": "TRY",
-      "TRY": "TRY",
       "₺": "TRY",
       "₼": "AZN",
       "Br": "BYN",
       "BZ$": "BZD",
       "P": "BWP",
       "лв": "BGN",
+      "฿": "THB",
       "": "USD", // fallback
     };
 
