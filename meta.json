@@ -1,4 +1,10 @@
 {
+  "name": {
+    "en-US":"ÖTEK Currency Converter"
+  },
+  "description": {
+    "en-US":"Convert currencies using xe.otek.today API"
+  },
   "summary": {
     "en-US": "Convert currencies using xe.otek.today API"
   },

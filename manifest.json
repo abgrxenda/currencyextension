@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "ÖTEK Currency Converter",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "author": "Ömer Kadir",
   "description": "Convert currencies using xe.otek.today API",
   "homepage_url": "https://omertek.com/",
