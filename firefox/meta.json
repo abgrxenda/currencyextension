@@ -1,0 +1,23 @@
+{
+  "name": {
+    "en-US":"ÖTEK Currency Converter"
+  },
+  "description": {
+    "en-US":"Convert currencies using xe.otek.today API"
+  },
+  "summary": {
+    "en-US": "Convert currencies using xe.otek.today API"
+  },
+  "categories": [
+    "other"
+  ],
+  "version": {
+    "license": "MPL-2.0"
+  },
+    "homepage": {
+    "en-US": "https://omertek.com/en/services/"
+  },
+  "support_email": {
+    "en-US": "otek.converter@otek.today"
+  }
+}
