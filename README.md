@@ -3,7 +3,8 @@
 A Firefox browser extension that allows users to quickly convert currencies by selecting text on any webpage and using the right-click context menu. The extension uses a custom Node.js API that scrapes real-time exchange rates from XE.com.
 
 ![Extension Demo](https://img.shields.io/badge/Firefox-Extension-orange)
-![Version](https://img.shields.io/badge/Version-1.9.2-blue)
+![Extension Demo](https://img.shields.io/badge/Chrome-Extension-green)
+![Version](https://img.shields.io/badge/Version-2.0.1-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Features
