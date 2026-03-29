@@ -9,6 +9,14 @@
         {
           "version": "1.9.6",
           "update_link": "https://omertek.com/currencyextensionupdate/otek_currency_converter-1.9.6.xpi"
+        },
+        {
+          "version": "1.9.7",
+          "update_link": "https://omertek.com/currencyextensionupdate/otek_currency_converter-1.9.7.xpi"
+        },
+        {
+          "version": "1.9.8",
+          "update_link": "https://omertek.com/currencyextensionupdate/otek_currency_converter-1.9.8.xpi"
         }
       ]
     }

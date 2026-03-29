@@ -1,4 +1,5 @@
 let selectedCurrency = "USD"; // Default to USD
+browser.contextMenus = browser.menus;
 
 // Use browser namespace (works in Firefox and Chrome)
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
@@ -51,24 +52,26 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
       await browser.storage.local.set({ conversionData });
       console.log('⭕⭕⭕ DEBUG: Stored conversion data:', conversionData);
       
+      await browser.browserAction.openPopup();
+
       // Create popup window
-      const popupWindow = await browser.windows.create({
-        url: browser.runtime.getURL('popup.html'),
-        type: 'popup',
-        width: 400,
-        height: 330,
-        focused: true
-      });
+      // const popupWindow = await browser.windows.create({
+      //   url: browser.runtime.getURL('popup.html'),
+      //   type: 'popup',
+      //   width: 400,
+      //   height: 330,
+      //   focused: true
+      // });
 
       // Optional: Close popup automatically after 30 seconds
-      setTimeout(async () => {
-        try {
-          await browser.windows.remove(popupWindow.id);
-        } catch (error) {
-          // Window might already be closed
-          console.log('⭕⭕⭕ Popup window already closed or removed');
-        }
-      }, 30000);
+      // setTimeout(async () => {
+      //   try {
+      //     await browser.windows.remove(popupWindow.id);
+      //   } catch (error) {
+      //     // Window might already be closed
+      //     console.log('⭕⭕⭕ Popup window already closed or removed');
+      //   }
+      // }, 30000);
 
     } catch (error) {
       console.error('⭕⭕⭕ Failed to create popup:', error);
@@ -88,36 +91,88 @@ function getPreferredCurrency() {
 }
 
 // Refresh context menu
-async function refreshContextMenu() {
-  await browser.contextMenus.removeAll();
+// async function refreshContextMenu() {
+//   await browser.contextMenus.removeAll();
 
-  browser.contextMenus.create({
-    id: "otekCurrency",
-    title: "Currency Conversion",
-    contexts: ["selection"],
-  });
+//   browser.contextMenus.create({
+//     id: "otekCurrency",
+//     title: "Currency Conversion",
+//     contexts: ["selection"],
+//   });
+
+//   try {
+//     const result = await browser.storage.sync.get(["preferredCurrencies"]);
+//     const savedCurrencies = result.preferredCurrencies || ["USD"];
+
+//     savedCurrencies.forEach((currency) => {
+//       browser.contextMenus.create({
+//         id: currency,
+//         title: currency,
+//         parentId: "otekCurrency",
+//         contexts: ["selection"],
+//       });
+//     });
+//   } catch (error) {
+//     console.error("⭕⭕⭕ Failed to load saved currencies:", error);
+//     // Fallback: create USD
+//     browser.contextMenus.create({
+//       id: "USD",
+//       title: "USD",
+//       parentId: "otekCurrency",
+//       contexts: ["selection"],
+//     });
+//   }
+// }
+
+async function refreshContextMenu() {
+  try {
+    await browser.contextMenus.removeAll();
+  } catch (error) {
+    console.warn("Could not remove existing menus:", error);
+  }
 
   try {
-    const result = await browser.storage.sync.get(["preferredCurrencies"]);
-    const savedCurrencies = result.preferredCurrencies || ["USD"];
+    await browser.contextMenus.create({
+      id: "otekCurrency",
+      title: "Convert Currency",
+      contexts: ["selection"]
+    });
+  } catch (error) {
+    console.error("Failed to create parent menu:", error);
+    return;
+  }
 
-    savedCurrencies.forEach((currency) => {
-      browser.contextMenus.create({
+  let savedCurrencies = [];
+
+  // 👇 Safely get saved currencies
+  try {
+    const result = await browser.storage.sync.get("preferredCurrencies");
+    console.log("🔍 Retrieved from storage:", result);
+
+    if (Array.isArray(result.preferredCurrencies) && result.preferredCurrencies.length > 0) {
+      savedCurrencies = result.preferredCurrencies;
+    } else {
+      console.warn("No valid currencies found in storage, falling back to USD");
+      savedCurrencies = ["USD"];
+    }
+  } catch (error) {
+    console.error("💥 Failed to load preferred currencies:", error);
+    savedCurrencies = ["USD"];
+  }
+
+  // 👇 Safely create each submenu item
+  for (const currency of savedCurrencies) {
+    try {
+      await browser.contextMenus.create({
         id: currency,
         title: currency,
         parentId: "otekCurrency",
-        contexts: ["selection"],
+        contexts: ["selection"]
       });
-    });
-  } catch (error) {
-    console.error("⭕⭕⭕ Failed to load saved currencies:", error);
-    // Fallback: create USD
-    browser.contextMenus.create({
-      id: "USD",
-      title: "USD",
-      parentId: "otekCurrency",
-      contexts: ["selection"],
-    });
+      console.log(`✅ Created menu: ${currency}`);
+    } catch (error) {
+      console.error(`❌ Failed to create menu for ${currency}:`, error);
+    }
   }
 }
 

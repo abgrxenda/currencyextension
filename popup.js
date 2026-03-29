@@ -63,18 +63,18 @@ function displayResult(data, result) {
     if (typeof result === 'string' || typeof result === 'number') {
         convertedAmount = parseNumber(result);
         const inputAmount = parseNumber(amount);
-        exchangeRate = inputAmount > 0 ? (convertedAmount / inputAmount).toFixed(6) : 'N/A';
+        exchangeRate = inputAmount > 0 ? (convertedAmount / inputAmount).toFixed(6) : '---';
     } else if (typeof result === 'object' && result !== null) {
         // Fallback for object responses (just in case your API changes)
-        convertedAmount = parseNumber(result.convertedAmount || result.result || result.value || result.amount || result.converted || 'N/A');
-        exchangeRate = result.rate || result.exchangeRate || result.exchange_rate || result.conversion_rate || 'N/A';
+        convertedAmount = parseNumber(result.convertedAmount || result.result || result.value || result.amount || result.converted || '---');
+        exchangeRate = result.rate || result.exchangeRate || result.exchange_rate || result.conversion_rate || '---';
         
         if (result.success !== undefined && !result.success) {
             throw new Error(result.error || result.message || 'Conversion failed');
         }
     } else {
-        convertedAmount = 'N/A';
-        exchangeRate = 'N/A';
+        convertedAmount = '---';
+        exchangeRate = '---';
     }
     
     // Format the numbers nicely
@@ -98,6 +98,10 @@ function displayResult(data, result) {
     
     document.getElementById('loading').style.display = 'none';
     document.getElementById('result').style.display = 'block';
+
+    setTimeout(() => {
+        window.close();
+    }, 10000);
 }
 
 // Display error
